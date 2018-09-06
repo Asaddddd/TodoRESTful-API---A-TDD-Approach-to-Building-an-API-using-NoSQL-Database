@@ -28,10 +28,17 @@ def getAllTasks():
     output=[]
 
     for q in tasks.find():
-        output.append({'Title':q['Title'], 'Description':q['Description'], 'Done':q['Done']})
+        output.append({'Id':q['Id'], 'Title':q['Title'], 'Description':q['Description'], 'Done':q['Done']})
 
     return jsonify({'result': output})
 
+@app.route('/todo/api/v1.0/tasks/<Id>', methods=['GET'])
+def retrieveSingleTask(Id):
+    task=mongo.db.tasks
+    query=task.find_one({'Id':Id})
+    output={'Id':query['Id'], 'Title': query['Title'], 'Description':query['Description'], 'Done':query['Done']}
+
+    return jsonify({'result':output})
 
 
 
